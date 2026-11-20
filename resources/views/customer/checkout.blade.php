@@ -85,7 +85,7 @@
                                 <input type="radio" name="payment_method" value="wallet" class="d-none">
                                 <div class="border rounded-3 p-3 text-center payment-option">
                                     <i class="bi bi-wallet2 fs-3 d-block mb-2" style="color:#007bff"></i>
-                                    <div class="small fw-semibold">Laravel-Delivery Wallet</div>
+                                    <div class="small fw-semibold">Happiee-Bite Wallet</div>
                                 </div>
                             </label>
                         </div>

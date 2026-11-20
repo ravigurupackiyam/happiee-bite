@@ -27,4 +27,5 @@ interface RazorpayServiceInterface
         string $razorpayPaymentId,
         string $razorpaySignature
     ): bool;
+    public function verifyWebhookSignature(string $payload, string $signature): bool;
 }

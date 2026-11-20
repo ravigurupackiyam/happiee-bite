@@ -242,7 +242,7 @@
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-brand">
-                <h4><i class="bi bi-lightning-charge-fill"></i> Laravel-Delivery</h4>
+                <h4><i class="bi bi-lightning-charge-fill"></i> Happiee-Bite</h4>
                 <small class="text-muted" style="font-size:11px">Food Delivery Platform</small>
             </div>
             <nav class="sidebar-nav">
@@ -493,7 +493,7 @@
 
         // ── Restaurant Owner: Listen for new orders ──────────────────────
         document.addEventListener('DOMContentLoaded', function() { //must need bcas app.js we have main variable
-            @if (auth()->user()->isRestaurantOwner() && auth()->user()->restaurant)
+            @if (auth()->user()?->isRestaurantOwner() && auth()->user()?->restaurant)
                 // once you put below code channel.php validate every refresh
                 // name should be correct based on broadcastOn, broadcastAs in related event (. prev imprt for broadcastAs)
                 window.Echo.private('restaurant.{{ auth()->user()->restaurant->id }}')

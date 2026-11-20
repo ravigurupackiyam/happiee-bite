@@ -70,7 +70,6 @@ class RazorpayService implements RazorpayServiceInterface
 
             return $payment;
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error('Failed to create Razorpay order', [
                 'order_id' => $order->id,
                 'error'    => $e->getMessage(),
@@ -182,7 +181,16 @@ class RazorpayService implements RazorpayServiceInterface
             return false;
         }
     }
+    public function verifyWebhookSignature(string $payload, string $signature): bool
+    {
+        $expectedSignature = hash_hmac(
+            'sha256',
+            $payload,
+            config('razorpay.webhook_secret')
+        );
 
+        return hash_equals($expectedSignature, $signature);
+    }
     public function getKeyId(): string
     {
         return config('razorpay.key_id');

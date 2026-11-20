@@ -35,7 +35,7 @@ class DailyReportNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Laravel-Delivery Daily Report — {$this->stats['date']}")
+            ->subject("Happiee-Bite Daily Report — {$this->stats['date']}")
             ->greeting("Hello {$notifiable->name}!")
             ->line("Here is your daily summary for **{$this->stats['date']}**:")
             ->line("---")
@@ -47,7 +47,7 @@ class DailyReportNotification extends Notification implements ShouldQueue
             ->line("🏪 **Active Restaurants:** {$this->stats['active_restaurants']}")
             ->line("---")
             ->action('View Full Report', route('admin.dashboard'))
-            ->line('This is an automated daily report from Laravel-Delivery.');
+            ->line('This is an automated daily report from Happiee-Bite.');
     }
 
     public function toDatabase(object $notifiable): array

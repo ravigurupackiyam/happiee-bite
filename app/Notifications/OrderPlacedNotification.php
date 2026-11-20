@@ -41,7 +41,7 @@ class OrderPlacedNotification extends Notification implements ShouldQueue
             ->line("**Payment Method:** " . ucfirst($this->order->payment_method))
             ->line("**Estimated Delivery:** {$this->order->restaurant->delivery_time} minutes")
             ->action('Track Your Order', route('customer.orders.show', $this->order))
-            ->line('Thank you for ordering from Laravel-Delivery!');
+            ->line('Thank you for ordering from Happiee-Bite!');
     }
 
     public function toDatabase(object $notifiable): array

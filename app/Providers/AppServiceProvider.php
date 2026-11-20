@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Horizon\Horizon;
+// use Laravel\Horizon\Horizon;
 use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
@@ -81,15 +81,15 @@ class AppServiceProvider extends ServiceProvider
 
 
         // Horizon authentication
-        Horizon::auth(function ($request) {
-            // Local — allow all for easy development
-            if (app()->environment('local')) {
-                return true;
-            }
+        // Horizon::auth(function ($request) {
+        //     // Local — allow all for easy development
+        //     if (app()->environment('local')) {
+        //         return true;
+        //     }
 
-            // Production — admin only
-            return $request->user()?->isAdmin() ?? false;
-        });
+        //     // Production — admin only
+        //     return $request->user()?->isAdmin() ?? false;
+        // });
         Restaurant::observe(RestaurantObserver::class);
         View::composer("partials.sidebar-customer", CustomerSidebarComposer::class);    //partials.sidebar-customer load ஆகும் போதெல்லாம் service automatically call ஆகும்
         View::composer("partials.sidebar-restaurant_owner", RestaurantOwnerSidebarComposer::class);

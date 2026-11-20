@@ -136,7 +136,7 @@
                 amount: {{ (int) ($order->total_amount * 100) }}, // in paise
                 currency: 'INR',
                 order_id: '{{ $payment->razorpay_order_id }}',
-                name: 'Laravel-Delivery',
+                name: 'Happiee-Bite',
                 description: 'Order #{{ $order->order_number }}',
                 image: '{{ asset('images/default-avatar.png') }}',
 
