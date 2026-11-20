@@ -30,13 +30,13 @@ class RegisterController extends Controller
 
             $user->assignRole($request->role);
             Wallet::create(['user_id' => $user->id, 'balance' => 0]);
-            
+
             // Fire registered event (sends verification email)
             // event(new Registered($user));
 
             Auth::login($user);
         });
 
-        return redirect()->route('dashboard')->with('success', 'Welcome to Laravel-Delivery! Please verify your email.');
+        return redirect()->route('dashboard')->with('success', 'Welcome to Happiee-Bite! Please verify your email.');
     }
 }

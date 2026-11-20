@@ -26,6 +26,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CustomerHomeController::class, 'index'])->name('customer.home');
 Route::get('/restaurants/{restaurant}', [CustomerHomeController::class, 'show'])->name('customer.restaurant');
 
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Endpoint not found'
+    ], 404);
+});
+
+// ------------- Login - Register ------------
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+
+    Route::get('/login', [LoginController::class, 'showForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    // ── Payment Routes ───────────────────────────────────────────
+    Route::get('/orders/{order}/pay', [PaymentController::class, 'show'])->name('payment.show');
+    Route::post('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::post('/payment/failure', [PaymentController::class, 'failure'])->name('payment.failure');
+    Route::get('/payment/{payment}/status', [PaymentController::class, 'status'])->name('payment.status');
+    Route::get('/transactions', [PaymentController::class, 'transactions'])->name('customer.transactions');
+});
+
 // ── Authenticated Routes ───────────────────────────
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -59,26 +85,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-// ------------- Login - Register ------------
-Route::middleware('guest')->group(function () {
-    Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register']);
-
-    Route::get('/login', [LoginController::class, 'showForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
-});
-
-Route::middleware('auth')->group(function () {
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-    // ── Payment Routes ───────────────────────────────────────────
-    Route::get('/orders/{order}/pay', [PaymentController::class, 'show'])->name('payment.show');
-    Route::post('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::post('/payment/failure', [PaymentController::class, 'failure'])->name('payment.failure');
-    Route::get('/payment/{payment}/status', [PaymentController::class, 'status'])->name('payment.status');
-    Route::get('/transactions', [PaymentController::class, 'transactions'])->name('customer.transactions');
-});
-
 // ── Webhook — No auth, no CSRF ─────────────────────────────────
 Route::post('/api/webhooks/razorpay', [WebhookController::class, 'handleRazorpay'])
     ->name('webhooks.razorpay')->withoutMiddleware([VerifyCsrfToken::class]);
@@ -94,6 +100,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('restaurants/{restaurant}/toggle-status', [AdminRestaurantController::class, 'toggleStatus'])
         ->name('restaurants.toggle-status');
 
+    // Refund management
     Route::get('refunds', [RefundController::class, 'index'])->name('refunds.index');
     Route::get('orders/{order}/refund', [RefundController::class, 'create'])->name('refunds.create');
     Route::post('orders/{order}/refund', [RefundController::class, 'store'])->name('refunds.store');
@@ -153,4 +160,4 @@ Route::middleware(['auth'])->prefix('notifications')->name('notifications.')->gr
     Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
 });
 
-// pending: Admin/RestaurantController, resources/views/admin/restaurants/index.blade.php, 
+// pending: Admin/RestaurantController, resources/views/admin/restaurants/index.blade.php,
